@@ -83,13 +83,13 @@ for (i = 0; i <5 ; i++) {
     // A switch calling function that decide who win and print information about it
     switch (decideWin(playerChoice, computerChoice)) {
         case "Player":
-            console.log(`Player choose ${playerChoice}, Computer choose ${computerChoice} Player win!`);
+            console.log(`Player choose ${playerChoice}, Computer choose ${computerChoice}. Player win!`);
             break;
         case "Computer":
             console.log(`Player choose ${playerChoice}, Computer choose ${computerChoice}. Computer win!`);
             break;
         case "Draw":
-            console.log(`Both Player and Computer choose ${playerChoice}, its a Draw!`);
+            console.log(`Both Player and Computer choose ${playerChoice}. Its a Draw!`);
             break;
     }
     // Reset player choice variable
