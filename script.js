@@ -1,23 +1,24 @@
 // This is a program to play rock paper scissors in browser console
 
 // Print a welcome message and short brief of the game
-console.log('Hello, and welcome to The Odin Project: Rock, Paper, Scissors!')
-console.log('You will play against your own computer, and it definitely pretty smart, so choose carefully!')
+console.log('Hello, and welcome to The Odin Project: Rock, Paper, Scissors!');
+console.log('You will play against your own computer, and it definitely pretty smart, so choose carefully!');
 
 // First Feature: A game of rock paper scissor one time only
 
 // Create an array to store rock, paper, and scissor text
 // Create a variable to store player choice. 
 // Create a variable to store random generated computer choice
-// Create a function to prompt then store player choice variable. It need to be case insensitive so turn it to lower-case first.
 // Create a funcion to check if player input is rock, paper, or scissor. If not, re-prompt player.
 // Create a function to generate computer choice and store it on computer choice variable
 // Create a function to compare player and computer choice and return who win
-// Create a while loop to re-prompt if player input is valid
 
 //Second Feature: A game of rock paper scissors on loop of five times and compare who won
-
-
+// Create a for loop 5 times to game and print the result of each round
+    // A while loop continuesly prompt and checking if player choice is not valid
+    // Calling function to generate computer choice
+    // A switch calling function that decide who win and print information about it
+    // Reset player choice variable
 
 // First Feature: A game of rock paper scissor one time only
 
@@ -27,21 +28,9 @@ const validChoices = ["rock", "paper", "scissor"];
 // Create a variable to store player choice.
 let playerChoice;
 
-// Create variable to store player choice validity.
-let choiceValidity = false;
-
 // Create a variable to store random generated computer choice
 let computerChoice;
 
-// Create a function to prompt then store player choice variable. It need to be case insensitive so turn it to lower-case first.
-function getChoice () {
-    console.log("Rock, Paper, or Scissor?");
-    return String(prompt()).toLowerCase();
-    
-}
-
-//playerChoice = getChoice();
-//console.log(playerChoice);
 
 // Create a funcion to check if player input is rock, paper, or scissor. If not, re-prompt player.
 
@@ -50,17 +39,11 @@ function testChoice (choice) {
     return testing;
 }
 
-//choiceValidity = testChoice(playerChoice);
-//console.log(choiceValidity);
-
 // Create a function to generate computer choice and store it on computer choice variable
 
 function randomChoice(items) {
     return items[Math.floor(Math.random()*items.length)];
 }
-
-//computerChoice = randomChoice(validChoices);
-//console.log(computerChoice);
 
 // Create a function to compare player and computer choice and return who win then print into console the computer and player choices and who win
 
@@ -77,18 +60,38 @@ function decideWin(playerChoice, computerChoice){
         (playerChoice == 'scissor' && computerChoice == 'rock')
     ) {return "Computer";}
 
-    else {return "Draw";}
+    else if (
+        (playerChoice == 'rock' && computerChoice == 'rock') ||
+        (playerChoice == 'paper' && computerChoice == 'paper') ||
+        (playerChoice == 'scissor' && computerChoice == 'scissor')
+    ) {return "Draw";}
 }
 
-// Create a while loop to re-prompt if player input is valid
+//Second Feature: A game of rock paper scissors on loop of five times and compare who won
 
-while (choiceValidity == false) {
-    console.log("Please choice a valid response!");
-    playerChoice = getChoice();
-    choiceValidity = testChoice(playerChoice);
-}
+// Create a for loop 5 times to game and print the result of each round
+for (i = 0; i <5 ; i++) {
 
-computerChoice = randomChoice(validChoices);
-console.log("Player choose " + playerChoice);
-console.log("Computer choose " + computerChoice);
-console.log("Who win? It was " + decideWin(playerChoice, computerChoice));
+    // A while loop continuesly prompt and checking if player choice is not valid
+    while (testChoice(playerChoice) == false) {
+        playerChoice = prompt("Rock, Paper, or Scissor?").toLowerCase();
+    }
+
+    // Calling function to generate computer choice
+    computerChoice = randomChoice(validChoices);
+
+    // A switch calling function that decide who win and print information about it
+    switch (decideWin(playerChoice, computerChoice)) {
+        case "Player":
+            console.log(`Player choose ${playerChoice}, Computer choose ${computerChoice} Player win!`);
+            break;
+        case "Computer":
+            console.log(`Player choose ${playerChoice}, Computer choose ${computerChoice}. Computer win!`);
+            break;
+        case "Draw":
+            console.log(`Both Player and Computer choose ${playerChoice}, its a Draw!`);
+            break;
+    }
+    // Reset player choice variable
+    playerChoice = false;
+} 
