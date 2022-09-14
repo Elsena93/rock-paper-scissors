@@ -21,39 +21,42 @@ function playRound(playerChoice, computerChoice){
         (playerChoice == 'rock' && computerChoice == 'scissor') ||
         (playerChoice == 'paper' && computerChoice == 'rock') ||
         (playerChoice == 'scissor' && computerChoice == 'paper')
-    ) {return "Player";}
+    )   {playerWin += 1;
+        return `Player choose ${playerChoice}, Computer choose ${computerChoice}. Player win!`;}
     
     else if (
         (playerChoice == 'rock' && computerChoice == 'paper') ||
         (playerChoice == 'paper' && computerChoice == 'scissor') ||
         (playerChoice == 'scissor' && computerChoice == 'rock')
-    ) {return "Computer";}
+    )   {computerWin += 1;
+        return `Player choose ${playerChoice}, Computer choose ${computerChoice}. Computer win!`;}
 
     else if (
         (playerChoice == 'rock' && computerChoice == 'rock') ||
         (playerChoice == 'paper' && computerChoice == 'paper') ||
         (playerChoice == 'scissor' && computerChoice == 'scissor')
-    ) {return "Draw";}
+    )   {drawCount += 1;
+        return `Both Player and Computer choose ${playerChoice}. Its a Draw!`;}
 }
 
 //--Second Feature: A game of rock paper scissors on loop of five times and compare who won
 // A switch calling function that decide who win, add the result to game counts, and return information about it
-function gameLoop() {
-    switch (playRound(playerChoice, computerChoice)) {
-        case "Player":
-            playerWin += 1;
-            return `Player choose ${playerChoice}, Computer choose ${computerChoice}. Player win!`;
-            break;
-        case "Computer":
-            computerWin += 1;
-            return `Player choose ${playerChoice}, Computer choose ${computerChoice}. Computer win!`;
-            break;
-        case "Draw":
-            drawCount += 1;
-            return `Both Player and Computer choose ${playerChoice}. Its a Draw!`;
-            break;
-    }
-}
+// function gameLoop() {
+//     switch (playRound(playerChoice, computerChoice)) {
+//         case "Player":
+//             playerWin += 1;
+//             return `Player choose ${playerChoice}, Computer choose ${computerChoice}. Player win!`;
+//             break;
+//         case "Computer":
+//             computerWin += 1;
+//             return `Player choose ${playerChoice}, Computer choose ${computerChoice}. Computer win!`;
+//             break;
+//         case "Draw":
+//             drawCount += 1;
+//             return `Both Player and Computer choose ${playerChoice}. Its a Draw!`;
+//             break;
+//     }
+// }
 
 
 //--GUI Feature: A game of rock paper scissors on loop of five times and compare who won
@@ -62,6 +65,10 @@ const buttons = document.querySelectorAll('button');
 for (item of buttons) {
     item.addEventListener('click', updateGame);
 }
+
+const reset = document.querySelector('.reset .button');
+reset.disabled = true;
+reset.addEventListener('click', resetGame);
 
 //Set varible for game counts
 let gameRound = 0;
@@ -79,15 +86,50 @@ const resultText = document.querySelector('.result');
 
 // A function to execute game and all of DOM manipulation
 function updateGame() {
-    //set player choice into then check who won
+    //set player choice into then check who won and show result text
     playerChoice =  this.dataset.key;
     computerChoice = randomChoice(validChoices);
-    resultText.textContent = gameLoop();
+    resultText.textContent = playRound(playerChoice, computerChoice);
 
     //Update game round counts
     gameRound += 1;
-    gameRoundText.textContent = `Game Round: ${gameRound}`;
+    gameRoundText.textContent = `Game Round: ${gameRound}/5`;
     playerWinText.textContent = `Player Win: ${playerWin}`;
     computerWinText.textContent = `Computer Win: ${computerWin}`;
     drawCountText.textContent = `Draw Count: ${drawCount}`;
+
+    //At 5 games, declare winner if and disable choice buttons
+    if (gameRound == 5) {
+        if (playerWin > computerWin) {
+            resultText.textContent = "You are the winner!";
+        }
+        else {resultText.textContent = "Computer is the winner, Loser!";}
+        
+        //Disable button on five game
+        document.querySelector('.rock').disabled = true;
+        document.querySelector('.paper').disabled = true;
+        document.querySelector('.scissor').disabled = true;
+
+        //Enable reset game button
+        reset.disabled = false;
+    }
+}
+
+//Function when game reach five. Reset all count variable, GUI counters, and reenabled choice button
+function resetGame () {
+    gameRound = 0;
+    playerWin = 0;
+    computerWin = 0;
+    drawCount = 0;
+
+    gameRoundText.textContent = `Game Round: ${gameRound}/5`;
+    playerWinText.textContent = `Player Win: ${playerWin}`;
+    computerWinText.textContent = `Computer Win: ${computerWin}`;
+    drawCountText.textContent = `Draw Count: ${drawCount}`;
+
+    document.querySelector('.rock').disabled = false;
+    document.querySelector('.paper').disabled = false;
+    document.querySelector('.scissor').disabled = false;
+
+    reset.disabled = true;
 }
